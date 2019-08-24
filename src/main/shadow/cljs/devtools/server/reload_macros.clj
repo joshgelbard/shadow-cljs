@@ -8,6 +8,11 @@
             [shadow.cljs.util :as util]
             [clojure.set :as set]))
 
+(defn- remove-symbol [m s]
+  (into {}
+        (map (fn [[k v]] [k (disj v s)]))
+        (dissoc m s)))
+
 (defn clj-ns-modified? [clj-state-ref ns-sym]
   (let [rc-url (bm/find-macro-rc ns-sym)]
 
@@ -15,7 +20,7 @@
       ;; FIXME: deleted macro files?
       (not rc-url)
       (do (log/warn ::macro-missing {:ns-sym ns-sym})
-          (swap! bm/active-macros-ref dissoc ns-sym)
+          (swap! bm/active-macros-ref remove-symbol ns-sym)
           false)
 
       ;; do not reload macros from jars, only files

@@ -15,7 +15,7 @@
 ;; since we can't isolate macros they will be reloaded for all builds
 ;; so it might affect builds without autobuild, can't do anything
 ;; about that
-;; its a map of {symbol timestamp-it-was-required}
+;; its a map of {symbol set-of-symbols}
 (def active-macros-ref (atom {}))
 (def tracked-clj-namespaces (atom {}))
 
